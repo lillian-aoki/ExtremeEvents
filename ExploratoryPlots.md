@@ -46,34 +46,75 @@ EEdata$Extreme_Definition <- ordered(EEdata$Extreme_Definition,levels=ExDef_orde
 ## Exploratory Plots
 
 ``` r
-ggplot(EEdata,aes(fill=Extreme_Definition,x=ProximateEvent_Type_broad))+geom_bar()+
+ggplot(EEdata,aes(fill=Extreme_Definition,
+                  x=reorder(ProximateEvent_Type,ProximateEvent_Type,function(x)-length(x))))+
+  geom_bar()+
   ylab("# of papers")+
+  xlab("Proximate Event Type - Specific")+
+  labs(title="Papers sorted by Proximate Event - Specific")+
   theme_bw()
 ```
 
 ![](ExploratoryPlots_files/figure-gfm/exploratory%20plots-1.png)<!-- -->
 
 ``` r
-ggplot(EEdata,aes(fill=Extreme_Definition,x=DistalEvent_Type))+geom_bar()+
+# Most papers look at flood, drought, or heatwave
+ggplot(EEdata,aes(fill=Extreme_Definition,
+                  x=reorder(ProximateEvent_Type_broad,ProximateEvent_Type_broad,function(x)-length(x))))+
+  geom_bar()+
   ylab("# of papers")+
+  xlab("Proximate Event Type - Broad")+
+  labs(title="Papers sorted by Proximate Event - Broad")+
   theme_bw()
 ```
 
 ![](ExploratoryPlots_files/figure-gfm/exploratory%20plots-2.png)<!-- -->
 
 ``` r
-ggplot(EEdata,aes(fill=Extreme_Definition,x=Type_system_broad))+geom_bar()+
+# Similar split of definitions across event types, about 1/3 use statistical defintion, 1/3 use non-statistical definition
+# 1/3 don't define 'extreme event'
+ggplot(EEdata,aes(fill=Extreme_Definition,x=reorder(DistalEvent_Type,DistalEvent_Type,function(x)-length(x))))+geom_bar()+
   ylab("# of papers")+
+  xlab("Distal Event Type - Specific")+
+  labs(title="Papers sorted by Distal Event - Specific")+
   theme_bw()
 ```
 
 ![](ExploratoryPlots_files/figure-gfm/exploratory%20plots-3.png)<!-- -->
 
 ``` r
-ggplot(EEdata,aes(x=EEdata$'Continuous Monitoring Prior'))+geom_bar()+
-  xlab("Continuous monitoring prior to event")+
+# Not sure how to use these categories compared to Proximate event - drought is in both??
+ggplot(EEdata,aes(fill=Extreme_Definition,x=reorder(Type_system,Type_system,function(x)-length(x))))+geom_bar()+
   ylab("# of papers")+
+  xlab("System type - Specific")+
+  labs(title="Papers sorted by System - Specific")+
   theme_bw()
 ```
 
 ![](ExploratoryPlots_files/figure-gfm/exploratory%20plots-4.png)<!-- -->
+
+``` r
+# Estuaries and streams/rivers are largest groups, catchment/watershed is also big group
+ggplot(EEdata,aes(fill=Extreme_Definition,x=Type_system_broad))+geom_bar()+
+  ylab("# of papers")+
+  xlab("System type - Broad")+
+  labs(title="Papers sorted by System - Broad")+
+  theme_bw()
+```
+
+![](ExploratoryPlots_files/figure-gfm/exploratory%20plots-5.png)<!-- -->
+
+``` r
+# Even split if we group coastal with marine
+ggplot(EEdata,aes(x=EEdata$'Continuous Monitoring Prior',fill=Type_system_broad))+geom_bar()+
+  xlab("Continuous monitoring prior to event")+
+  ylab("# of papers")+
+  labs(title="Papers split by prior monitoring")+
+  theme_bw()
+```
+
+![](ExploratoryPlots_files/figure-gfm/exploratory%20plots-6.png)<!-- -->
+
+``` r
+# ~2/3 had monitoring, 1/3 did not; similar split between fresh/marine
+```
