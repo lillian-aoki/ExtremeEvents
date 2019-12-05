@@ -6,7 +6,7 @@ EEdata <- read_csv("EEdata.csv",skip_empty_rows = TRUE)
 EEdata <- distinct(EEdata,UniqueAccession,.keep_all = TRUE)
 EEdata <- EEdata[-50,] #can't figure out a better way to get rid of the final NA row
 
-### Adding some now data columns for more broad categories
+### Adding some new data columns for more broad categories
 
 EEdata$Type_system_broad <- factor(rep(NA,length(EEdata$Type_system)),
                                    levels=c("freshwater","coastal","marine"))
@@ -74,3 +74,8 @@ ggplot(EEdata,aes(x=EEdata$'Continuous Monitoring Prior',fill=Type_system_broad)
   labs(title="Papers split by prior monitoring")+
   theme_bw()
 # ~2/3 had monitoring, 1/3 did not; similar split between fresh/marine
+ggplot(EEdata,aes(fill=ProximateEvent_Type_broad,x=Type_system_broad))+geom_bar()+
+  ylab("# of papers")+
+  xlab("System type - Broad")+
+  labs(title="Events occuring in different systems")+
+  theme_bw()

@@ -1,14 +1,17 @@
 Excluded Papers
 ================
 LRA
-11/11/2019
+12/5/2019
 
 Importing data on excluded papers
 
 ``` r
 Excluded <- read.csv("Excluded papers.csv")
 Excluded2 <- read.csv("Excluded papers - second round.csv")
-Excluded <- bind_rows(Excluded,Excluded2)
+Excluded3 <- read.csv("Excluded - final round.csv")
+Excluded3$Issue <- as.character(Excluded3$Issue)
+Excluded3$Volume <- as.character(Excluded3$Volume)
+Excluded <- bind_rows(Excluded,Excluded2,Excluded3)
 Excluded$Reason <- str_extract(Excluded$Manual.Tags,regex("(exclude).+$|(Exclude).+$"))
 ```
 
@@ -63,7 +66,7 @@ Excluded$Reason2[Excluded$Reason %in% c("excluded - not about ecology",
                                         "excluded - not ecology",
                                         "excluded- no new ecological data"
                                         )] <- "Not ecology"
-Excluded$Reason2[Excluded$Reason %in% c("excluded - symposium overview")] <- "Other"
+Excluded$Reason2[Excluded$Reason %in% c("excluded - symposium overview","excluded - non english")] <- "Other"
 Excluded$Reason2[Excluded$Reason %in% c("excluded - experimental")] <- "Experimental"
 Excluded$Reason2 <- reorder(Excluded$Reason2,Excluded$Reason2,function(x)-length(x))
 ```
@@ -79,7 +82,5 @@ ggplot(Excluded,aes(x=Reason2))+geom_bar()+
 
 ![](ExcludedPapers_files/figure-gfm/plots-1.png)<!-- -->
 
-Note that this isn’t quite the full list - some papers were excluded at
-the data entry stage and Zotero folders haven’t been updated If we think
-this is a useful piece of analysis to include, would need to update the
-final numbers
+In total, our search found 215 papers, and we excluded 166, leaving 49
+for analysis
