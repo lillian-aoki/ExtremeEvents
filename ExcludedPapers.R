@@ -3,7 +3,10 @@ library(tidyverse)
 
 Excluded <- read.csv("Excluded papers.csv")
 Excluded2 <- read.csv("Excluded papers - second round.csv")
-Excluded <- bind_rows(Excluded,Excluded2)
+Excluded3 <- read.csv("Excluded - final round.csv")
+Excluded3$Issue <- as.character(Excluded3$Issue)
+Excluded3$Volume <- as.character(Excluded3$Volume)
+Excluded <- bind_rows(Excluded,Excluded2,Excluded3)
 Excluded$Reason <- str_extract(Excluded$Manual.Tags,regex("(exclude).+$|(Exclude).+$"))
 
 # cleaning up levels 
@@ -56,7 +59,7 @@ Excluded$Reason2[Excluded$Reason %in% c("excluded - not about ecology",
                                         "excluded - not ecology",
                                         "excluded- no new ecological data"
                                         )] <- "Not ecology"
-Excluded$Reason2[Excluded$Reason %in% c("excluded - symposium overview")] <- "Other"
+Excluded$Reason2[Excluded$Reason %in% c("excluded - symposium overview","excluded - non english")] <- "Other"
 Excluded$Reason2[Excluded$Reason %in% c("excluded - experimental")] <- "Experimental"
 Excluded$Reason2 <- reorder(Excluded$Reason2,Excluded$Reason2,function(x)-length(x))
 ## look at how many papers were excluded from various categories
